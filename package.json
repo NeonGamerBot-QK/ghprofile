@@ -1,21 +1,76 @@
 {
   "name": "ghprofile",
   "version": "0.1.0",
+  "main": "public/electron.js",
+  "description": "A simple electron app to lookup github profiles",
+  "author": "Neon <neon@saahild.com>",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "electron-is-dev": "^2.0.0",
+    "electron-store": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.10.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start:react": "react-scripts start",
+    "start": "concurrently \"npm run start:react\" \"electron electron\"",
+    "build:react": "react-scripts build",
+    "build": "yarn build:react && yarn build:electron",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:electron": "electron-builder -p always"
+  },
+  "build": {
+    "appId": "com.saahild.ghprofile",
+    "productName": "ghprofile",
+    "linux": {
+      "category": "Development",
+      "desktop": {
+        "Comment": "gh user lookup app",
+        "Name": "ghprofile",
+        "StartupNotify": "true",
+        "Terminal": "false",
+        "Type": "Application",
+        "Categories": "Development;"
+      },
+      "icon": "icon.png",
+      "executableName": "ghprofile",
+      "maintainer": "Neon <neon@saahild.com>",
+      "target": [
+        "deb",
+        "rpm",
+        "AppImage"
+      ]
+    },
+    "deb": {
+      "compression": "bzip2"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        "dmg"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "license": "LICENSE"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "directories": {
+      "output": "release"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +89,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "daisyui": "^3.2.1",
+    "electron": "^25.3.0",
+    "electron-builder": "^24.4.0",
+    "tailwindcss": "^3.3.3"
   }
 }
